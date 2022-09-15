@@ -20,7 +20,7 @@ async function run() {
     create: {
       email: "user@test.com",
       isAdmin: false,
-      name: "hossein",
+      name: "negin",
       password: bcrypt.hashSync("user", salt),
     },
   });
