@@ -1,0 +1,42 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider          = "postgresql"
+  url               = env("DATABASE_URL")
+  shadowDatabaseUrl = env("SHADOW_DATABASE_URL")
+}
+
+model User {
+    id Int @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    isAdmin Boolean @default(false)
+    email String @unique
+    password String
+    name String
+    projects Project[]
+}
+
+model Project {
+    id Int @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    title String
+    description String
+    tasks Task[]
+    user User @relation(fields: [userId],references: [id] )
+    userId Int
+}
+
+model Task {
+    id Int @id @default(autoincrement())
+    createdAt DateTime @default(now())
+    updatedAt DateTime @updatedAt
+    name String
+    userComment String @default("")
+    isDone Boolean @default(false)
+    priority String
+    project Project @relation(fields: [projectId], references: [id])
+    projectId Int
+}
